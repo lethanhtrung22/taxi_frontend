@@ -2,30 +2,33 @@ angular.module('starter.controllers', [])
 
 .controller('AppCtrl', function($scope, $ionicSideMenuDelegate, $state, $ionicHistory, $rootScope, $timeout, $ionicLoading) {
     // Code you want executed every time view is opened
-    $scope.taxiData = taxiData = JSON.parse(window.localStorage.getItem("session"));
-//  console.log(taxiData);
-    ionItems = document.getElementsByTagName("ion-item");
-    navIcons = document.getElementsByClassName("ion-navicon");
-//  console.log(navIcons);
+    $scope.taxiData = taxiData = {};
+    $scope.$on('$ionicView.enter', function () {
+        $scope.taxiData = taxiData = JSON.parse(window.localStorage.getItem("session"));
+    //  console.log(taxiData);
+        ionItems = document.getElementsByTagName("ion-item");
+        navIcons = document.getElementsByClassName("ion-navicon");
+    //  console.log(navIcons);
 
-    if (!taxiData) {
-        $ionicLoading.hide();
-        for (i = 0; i < ionItems.length; i++) {
-            ionItems[i].classList.add("ng-hide");
+        if (!taxiData) {
+            $ionicLoading.hide();
+            for (i = 0; i < ionItems.length; i++) {
+                ionItems[i].classList.add("ng-hide");
+            }
+            for (i = 0; i < navIcons.length; i++) {
+                navIcons[i].classList.add("hide");
+            }
+            $state.go('tab.login');
+            return false;
+        } else {
+            for (i = 0; i < ionItems.length; i++) {
+                ionItems[i].classList.remove("ng-hide");
+            }
+            for (i = 0; i < navIcons.length; i++) {
+                navIcons[i].classList.remove("hide");
+            }
         }
-        for (i = 0; i < navIcons.length; i++) {
-            navIcons[i].classList.add("hide");
-        }
-        $state.go('tab.login');
-        return false;
-    } else {
-        for (i = 0; i < ionItems.length; i++) {
-            ionItems[i].classList.remove("ng-hide");
-        }
-        for (i = 0; i < navIcons.length; i++) {
-            navIcons[i].classList.remove("hide");
-        }
-    }
+    });
 
     $scope.toggleLeftSideMenu = function() {
         $ionicSideMenuDelegate.toggleLeft();
@@ -408,7 +411,16 @@ angular.module('starter.controllers', [])
 
 .controller('LogoutCtrl', function($scope, $ionicPopup, $state) {
     window.localStorage.removeItem("session");
-    $state.go('tab.trips');
+    taxiData = null;
+    ionItems = document.getElementsByTagName("ion-item");
+    navIcons = document.getElementsByClassName("ion-navicon");
+    for (i = 0; i < ionItems.length; i++) {
+        ionItems[i].classList.add("ng-hide");
+    }
+    for (i = 0; i < navIcons.length; i++) {
+        navIcons[i].classList.add("hide");
+    }
+    $state.go('tab.login');
 })
 
 .controller('LoginCtrl', function($scope, LoginService, $ionicPopup, $state, $ionicSideMenuDelegate, $ionicNavBarDelegate, $ionicHistory, $rootScope) {
@@ -430,6 +442,17 @@ angular.module('starter.controllers', [])
                     template: ''
                 });
             } else {
+                taxiData = data;
+
+                ionItems = document.getElementsByTagName("ion-item");
+                navIcons = document.getElementsByClassName("ion-navicon");
+                for (i = 0; i < ionItems.length; i++) {
+                    ionItems[i].classList.remove("ng-hide");
+                }
+                for (i = 0; i < navIcons.length; i++) {
+                    navIcons[i].classList.remove("hide");
+                }
+
                 $state.go('tab.trips');
             }
         })
