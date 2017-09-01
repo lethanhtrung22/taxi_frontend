@@ -96,7 +96,6 @@ angular.module('starter', ['ionic', 'chart.js', 'starter.controllers', 'starter.
 			}
 		}
 	})
-
 	.state('tab.trips.view', {
 		url: '/:tripID',
 		views: {
@@ -106,6 +105,26 @@ angular.module('starter', ['ionic', 'chart.js', 'starter.controllers', 'starter.
 			'menuContent@tab':{
 				templateUrl: 'templates/tripView.html',
 				controller: 'TripsViewCtrl'
+			}
+		}
+	})
+
+
+	.state('tab.buy', {
+		url: '/buy',
+		views: {
+			'menuContent': {
+				templateUrl: 'templates/tab-buy.html',
+				controller: 'BuyCtrl'
+			}
+		}
+	})
+	.state('tab.buy.view', {
+		url: '/:buyID',
+		views: {
+			'menuContent': {
+				templateUrl: 'templates/buyView.html',
+				controller: 'BuyViewCtrl'
 			}
 		}
 	})

@@ -65,6 +65,13 @@ angular.module('starter.services', [])
                   .then(function(response) {
           			return response.data;
           		});
+    },
+    getAllBuy: function (taxiid) {
+        return $http.post(MAIN_URL+"/trip_all_buy.php", {taxiid: taxiid})
+                  .then(function(response) {
+          			trips = response.data;
+          			return trips;
+          		});
     }
   };
 })

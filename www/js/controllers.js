@@ -111,15 +111,63 @@ angular.module('starter.controllers', [])
     });
 })
 
+.controller('BuyCtrl', function($scope, $state, TripsService, $ionicPopup, $interval, $timeout, $ionicNavBarDelegate, $ionicLoading, $location) {
+    $ionicNavBarDelegate.showBackButton(false);
 
-.controller('TripsCtrl', function($scope, $state, TripsService, $ionicPopup, $interval, $timeout, $ionicNavBarDelegate, $ionicLoading) {
+    $scope.refreshItems = function () {
+        if (taxiData) {
+            $ionicLoading.show({
+                content: 'Loading',
+                animation: 'fade-in',
+                showBackdrop: true,
+                maxWidth: 200,
+                showDelay: 0
+            });
+            TripsService.getAllBuy(taxiData.id).then(function(response) {
+                console.log(response);
+                $scope.trips_today = response.today;
+                $scope.trips_others = response.others;
+
+                $ionicLoading.hide();
+            });
+        }
+    }
+
+    $scope.view = function(tripID) {
+        $state.go('tab.trips.view', {tripID: tripID});
+    }
+
+    // initialize
+    $scope.refreshItems();
+})
+.controller('BuyViewCtrl', function($scope, $state, $stateParams, TripsService, $ionicPopup, $interval, $timeout, $ionicNavBarDelegate, $ionicLoading) {
+    $ionicNavBarDelegate.showBackButton(true);
+    $ionicLoading.show({
+        content: 'Loading',
+        animation: 'fade-in',
+        showBackdrop: true,
+        maxWidth: 200,
+        showDelay: 0
+    });
+
+    $scope.tripID = $stateParams.tripID;
+    $scope.trip = {};
+
+    TripsService.getOne($scope.tripID).then(function(response) {
+        $timeout(function() {
+            $scope.trip = response;
+            $ionicLoading.hide();
+        }, 1000);
+    })
+})
+
+.controller('TripsCtrl', function($scope, $state, TripsService, $ionicPopup, $interval, $timeout, $ionicNavBarDelegate, $ionicLoading, $location) {
     $ionicNavBarDelegate.showBackButton(false);
 
     $scope.loadTimeLeft = function(response, from) {
         for (i = 0; i < response.length; i++) {
             var j = i + from;
-            console.log(i+' '+j);
-            console.log(response[i]);
+
             var end_time = new Date(response[i].time);
             var now = new Date();
             var diff_sec = end_time - now;
@@ -129,6 +177,7 @@ angular.module('starter.controllers', [])
                 document.getElementsByTagName("buy")[j].innerHTML = "Chuyến không có sẵn";
                 document.getElementsByTagName("pricebuy")[j].innerHTML = "";
             } else {
+                console.log(document.getElementsByTagName("pricebuy"));
                 var pricebuy = parseInt(response[i].price)-parseInt(response[i].coin);
                 document.getElementsByTagName("pricebuy")[j].innerHTML = pricebuy+'<span class="small">k</span>';
 
@@ -150,43 +199,48 @@ angular.module('starter.controllers', [])
         }
     }
 
-    if (taxiData) {
-    $ionicLoading.show({
-        content: 'Loading',
-        animation: 'fade-in',
-        showBackdrop: true,
-        maxWidth: 200,
-        showDelay: 0
+    $scope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
+    	console.log(fromState);
+        console.log(toState);
+    	if ($location.path() == "/tab/trips") {
+    		$scope.refreshItems();
+        }
     });
 
-    $timeout(function() {
-        TripsService.getAll(taxiData.id).then(function(response) {
-            console.log(response);
-            $scope.trips_myPriority = response.myPriority;
-            $scope.trips_today = response.today;
-            $scope.trips_others = response.others;
-
-            var theInterval = $interval(function () {
-                $scope.loadTimeLeft(response.myPriority, 0);
-                $scope.loadTimeLeft(response.today, response.myPriority.length);
-                $scope.loadTimeLeft(response.others, response.today.length+response.myPriority.length);
-            }.bind(this), 1000);
-
-            $scope.$on('$destroy', function () {
-                $interval.cancel(theInterval)
+    $scope.refreshItems = function () {
+        if (taxiData) {
+            $ionicLoading.show({
+                content: 'Loading',
+                animation: 'fade-in',
+                showBackdrop: true,
+                maxWidth: 200,
+                showDelay: 0
             });
-            $scope.$on('$leave', function () {
-                $interval.cancel(theInterval)
-            });
-            $ionicLoading.hide();
-        });
-    }, 1000);
 
+            TripsService.getAll(taxiData.id).then(function(response) {
+                console.log(response);
+                $scope.trips_myPriority = response.myPriority;
+                $scope.trips_today = response.today;
+                $scope.trips_others = response.others;
+
+                $timeout(function() {
+                    $scope.loadTimeLeft(response.myPriority, 0);
+                    $scope.loadTimeLeft(response.today, response.myPriority.length);
+                    $scope.loadTimeLeft(response.others, response.today.length+response.myPriority.length);
+                }, 1000);
+
+                $ionicLoading.hide();
+            });
+        }
     }
 
     $scope.view = function(tripID) {
         $state.go('tab.trips.view', {tripID: tripID});
     }
+
+
+    // initialize
+    $scope.refreshItems();
 })
 .controller('TripsViewCtrl', function($scope, $state, $stateParams, TripsService, $ionicPopup, $interval, $timeout, $ionicNavBarDelegate, $ionicLoading) {
     $ionicNavBarDelegate.showBackButton(true);
@@ -299,6 +353,8 @@ angular.module('starter.controllers', [])
         TripsService.buy($scope.tripID, taxiData.id).then(function(response) {
             console.log(response);
             if (response == 1) {
+                taxiData.coin = taxiData.coin - $scope.trip.coin;
+                document.getElementsByTagName("coin")[0].innerHTML = taxiData.coin+"k";
                 $scope.showInfo($scope.trip);
                 $interval.cancel($scope.theInterval);
             } else {
@@ -384,16 +440,18 @@ angular.module('starter.controllers', [])
 
 .controller('AccountCtrl', function($scope, $state, $stateParams, $ionicPopup, $interval, $timeout, $ionicNavBarDelegate, $ionicLoading) {
     $ionicNavBarDelegate.showBackButton(false);
-    $ionicLoading.show({
-        content: 'Loading',
-        animation: 'fade-in',
-        showBackdrop: true,
-        maxWidth: 200,
-        showDelay: 0
-    });
-    $timeout(function() {
-        console.log(taxiData);
-        $scope.account = JSON.parse(taxiData);
-        $ionicLoading.hide();
-    }, 1000);
+    if (taxiData) {
+        $ionicLoading.show({
+            content: 'Loading',
+            animation: 'fade-in',
+            showBackdrop: true,
+            maxWidth: 200,
+            showDelay: 0
+        });
+        $timeout(function() {
+            console.log(taxiData);
+            $scope.account = taxiData;
+            $ionicLoading.hide();
+        }, 1000);
+    }
 });
