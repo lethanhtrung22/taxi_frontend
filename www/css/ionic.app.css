@@ -34,7 +34,7 @@ h3.trip-destinations{font-size:23px!important;margin:8px 0 10px!important}
 .trip-coin,.trip-coin-view,.trip-pricecoin{color:#c6c030}
 .trip-pricecoin{font-weight:600;font-size:24px;float:left;margin:40px -69px 0;width:50px;text-align:center}
 .trip-price{font-weight:600;color:#0dabb4}
-.hist-pricecoin{font-weight:600;font-size:21px;float:left;margin:8px -62px 0;width:50px;text-align:center}
+.hist-pricecoin{font-weight:600;font-size:21px;float:left;margin:8px -69px 0;width:50px;text-align:center}
 .hist-pricecoin.buytrip{color:#c6c030}
 .hist-pricecoin.error{color:#e84c3d}
 .hist-pricecoin.add{color:#00a65a}
