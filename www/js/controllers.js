@@ -454,7 +454,9 @@ angular.module('starter.controllers', [])
                     navIcons[i].classList.remove("hide");
                 }
 
-                $ionicNavBarDelegate.showBackButton(true);
+                $scope.toggleLeftSideMenu = function() {
+                    $ionicSideMenuDelegate.toggleLeft();
+                };
                 $state.go('tab.trips');
             }
         })
