@@ -2,8 +2,8 @@ angular.module('starter.controllers', [])
 
 .controller('AppCtrl', function($scope, $ionicSideMenuDelegate, $state, $ionicHistory, $rootScope, $timeout, $ionicLoading) {
     // Code you want executed every time view is opened
-    $scope.taxiData = taxiData = {};
-    $scope.$on('$ionicView.enter', function () {
+//    $scope.taxiData = taxiData = {};
+//    $scope.$on('$ionicView.enter', function () {
         $scope.taxiData = taxiData = JSON.parse(window.localStorage.getItem("session"));
     //  console.log(taxiData);
         ionItems = document.getElementsByTagName("ion-item");
@@ -28,7 +28,7 @@ angular.module('starter.controllers', [])
                 navIcons[i].classList.remove("hide");
             }
         }
-    });
+//    });
 
     $scope.toggleLeftSideMenu = function() {
         $ionicSideMenuDelegate.toggleLeft();
@@ -180,7 +180,6 @@ angular.module('starter.controllers', [])
                 document.getElementsByTagName("buy")[j].innerHTML = "Chuyến không có sẵn";
                 document.getElementsByTagName("pricebuy")[j].innerHTML = "";
             } else {
-                console.log(document.getElementsByTagName("pricebuy"));
                 var pricebuy = parseInt(response[i].price)-parseInt(response[i].coin);
                 document.getElementsByTagName("pricebuy")[j].innerHTML = pricebuy+'<span class="small">k</span>';
 
