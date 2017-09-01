@@ -1,0 +1,14 @@
+<ion-view view-title="Lịch sử vi phạm">
+  <ion-content>
+    <div class="list">
+      <a ng-clicks="view({{infrienge.id}})" class="item item-remove-animate history-item" ng-repeat="infrienge in infrienges" type="item-text-wrap">
+        <h3>
+            <b>{{infrienge.time}}</b>
+        </h3>
+        <p class="animated fadeIn">
+            {{infrienge.details}}
+        </p>
+     </a>
+    </div>
+  </ion-content>
+</ion-view>

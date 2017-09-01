@@ -1,0 +1,17 @@
+<ion-view view-title="Lịch sử giao dịch">
+  <ion-content>
+    <div class="list">
+      <a ng-click="view({{history.id}})" class="item item-remove-animate history-item item-avatar" ng-repeat="history in histories" type="item-text-wrap">
+        <div class="hist-pricecoin {{history.typetxt}}">
+            {{history.coin}}<span class="small">k</span>
+        </div>
+        <h3>
+            <b>{{history.time}}</b>
+        </h3>
+        <p class="animated fadeIn">
+            {{history.details}}
+        </p>
+     </a>
+    </div>
+  </ion-content>
+</ion-view>
