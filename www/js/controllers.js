@@ -279,9 +279,11 @@ angular.module('starter.controllers', [])
 
         if (diff_sec <= 0) {
             document.getElementsByTagName("timev")[0].innerHTML = '<span class="trip-view-time_left passed">Hết hạn</span>';
+            document.getElementsByTagName("button")[4].classList.add('ng-hide');
         } else {
             var diff = this.msToTime(diff_sec);
             document.getElementsByTagName("timev")[0].innerHTML = '<span class="trip-view-time_left">'+diff+'</span>';
+            document.getElementsByTagName("button")[4].classList.remove('ng-hide');
         }
     }
 
@@ -355,8 +357,8 @@ angular.module('starter.controllers', [])
         TripsService.buy($scope.tripID, taxiData.id).then(function(response) {
             console.log(response);
             if (response == 1) {
-                taxiData.coin = taxiData.coin - $scope.trip.coin;
-                document.getElementsByTagName("coin")[0].innerHTML = taxiData.coin+"k";
+                newCoin = taxiData.coin = taxiData.coin - $scope.trip.coin;
+                document.getElementsByTagName("coin")[0].innerHTML = newCoin+"k";
                 $scope.showInfo($scope.trip);
                 $interval.cancel($scope.theInterval);
             } else {
@@ -452,6 +454,7 @@ angular.module('starter.controllers', [])
                     navIcons[i].classList.remove("hide");
                 }
 
+                $ionicNavBarDelegate.showBackButton(true);
                 $state.go('tab.trips');
             }
         })
