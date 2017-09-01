@@ -1,21 +1,18 @@
-# free-ionic-starter
-
-I created this for testing purposes. you can download this for any purposes. You also can see this on the IONIC MARKET
-[see in ionic market](http://market.ionic.io/starters/deshshatom-cool-ui)
+# taxi
 
 ## Installation
 
-1. Type in terminal or cmd " git clone  https://github.com/deshatom/free-ionic-starter.git " or download this project
-2. cd free-ionic-starter
+1. Type in terminal or cmd `git clone https://github.com/miamor/taxi_frontend.git` or download this project
+2. cd taxi_frontend
 3. nmp install
 4. bower install
-5. ionic serve
+5. ionic serve (or `ionic serve --lab` )   
 
 ## Run in android
 
 1. ionic platform add android
 2. ionic build android
-3. ionic run androi
+3. ionic run android
 
 ## Run in ios (you must have mac)
 
@@ -24,7 +21,6 @@ I created this for testing purposes. you can download this for any purposes. You
 3. ionic run ios
 
 
-## Let me know
+## Note
 
-[see in ionic market](http://market.ionic.io/starters/deshshatom-cool-ui)
-let me know if you have any question... Also add an star.. Thank you..
+I build this pp to fetch json data from localhost server. You can change requests to your server or use your sample data in www/js/controller.js
