@@ -6,7 +6,7 @@ angular.module('starter.controllers', [])
 //    $scope.$on('$ionicView.enter', function () {
         $scope.taxiData = taxiData = JSON.parse(window.localStorage.getItem("session"));
     //  console.log(taxiData);
-        ionItems = document.getElementsByTagName("ion-item");
+/*        ionItems = document.getElementsByTagName("ion-item");
         navIcons = document.getElementsByClassName("ion-navicon");
     //  console.log(navIcons);
 
@@ -28,6 +28,7 @@ angular.module('starter.controllers', [])
                 navIcons[i].classList.remove("hide");
             }
         }
+*/
 //    });
 
     $scope.toggleLeftSideMenu = function() {
@@ -165,7 +166,7 @@ angular.module('starter.controllers', [])
 })
 
 .controller('TripsCtrl', function($scope, $state, TripsService, $ionicPopup, $interval, $timeout, $ionicNavBarDelegate, $ionicLoading, $location) {
-    ionItems = document.getElementsByTagName("ion-item");
+/*    ionItems = document.getElementsByTagName("ion-item");
     navIcons = document.getElementsByClassName("ion-navicon");
     console.log(navIcons);
     for (i = 0; i < ionItems.length; i++) {
@@ -176,7 +177,7 @@ angular.module('starter.controllers', [])
         console.log(navIcons[i].classList);
         navIcons[i].classList.remove("hide");
     }
-
+*/
     $ionicNavBarDelegate.showBackButton(false);
 
     $scope.loadTimeLeft = function(response, from) {
@@ -425,7 +426,7 @@ angular.module('starter.controllers', [])
 .controller('LogoutCtrl', function($scope, $ionicPopup, $state) {
     window.localStorage.removeItem("session");
     taxiData = null;
-    ionItems = document.getElementsByTagName("ion-item");
+/*    ionItems = document.getElementsByTagName("ion-item");
     navIcons = document.getElementsByClassName("ion-navicon");
     for (i = 0; i < ionItems.length; i++) {
         ionItems[i].classList.add("ng-hide");
@@ -433,6 +434,7 @@ angular.module('starter.controllers', [])
     for (i = 0; i < navIcons.length; i++) {
         navIcons[i].classList.add("hide");
     }
+*/
     $state.go('tab.login');
 })
 
@@ -457,7 +459,7 @@ angular.module('starter.controllers', [])
             } else {
                 taxiData = data;
 
-                ionItems = document.getElementsByTagName("ion-item");
+/*                ionItems = document.getElementsByTagName("ion-item");
                 navIcons = document.getElementsByClassName("ion-navicon");
                 console.log(navIcons);
                 for (i = 0; i < ionItems.length; i++) {
@@ -468,7 +470,7 @@ angular.module('starter.controllers', [])
                     console.log(navIcons[i].classList);
                     navIcons[i].classList.remove("hide");
                 }
-
+*/
                 $state.go('tab.trips');
             }
         })
