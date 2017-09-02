@@ -173,7 +173,7 @@ angular.module('starter.controllers', [])
             var time_left = moment(end_time, "YYYYMMDD H:i:s").startOf('hour').fromNow();
 
             if (parseInt(response[i].coin) <= 0) {
-                document.getElementsByTagName("buy")[j].innerHTML = "Chuyến không có sẵn";
+                document.getElementsByTagName("buy")[j].innerHTML = "Chưa có giá";
                 document.getElementsByTagName("pricebuy")[j].innerHTML = "";
             } else {
                 var pricebuy = parseInt(response[i].price)-parseInt(response[i].coin);
