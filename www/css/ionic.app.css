@@ -4536,8 +4536,8 @@ a.subdued {
   left: 0;
   z-index: 9; }
 
-.bar .back-button.hide,
-.bar .buttons .hide {
+.bar .back-button.hide
+,.bar .buttons .hide {
   display: none; }
 
 .nav-bar-tabs-top .bar {
@@ -9564,8 +9564,7 @@ a.button {
  * Utility Classes
  * --------------------------------------------------
  */
-.hide {
-  display: none; }
+.hide {*display: none; }
 
 .opacity-hide {
   opacity: 0; }
